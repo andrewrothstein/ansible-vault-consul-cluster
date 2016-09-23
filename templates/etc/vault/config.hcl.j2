@@ -1,0 +1,16 @@
+backend "consul" {
+    address = "127.0.0.1:8500"
+    path = "vault"
+}
+
+listener "tcp" {
+    address = "127.0.0.1:8200"
+    tls_cert_file = {{vault_pki_cert_dest|to_json}}
+    tls_key_file = {{vault_pki_key_dest|to_json}}
+    
+}
+
+telemetry {
+    statsite_address = "127.0.0.1:8125"
+    disable_hostname = true
+}

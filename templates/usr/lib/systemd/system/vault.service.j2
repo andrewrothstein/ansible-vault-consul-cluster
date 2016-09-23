@@ -1,0 +1,12 @@
+[Unit]
+Description Vault Server
+After=consul.service
+Requires=consul.service
+
+[Service]
+ExecStart=/usr/local/bin/vault -config {{vault_etc_dir}}/config.hcl
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=INT
+
+[Install]
+WantedBy=multi-user.target

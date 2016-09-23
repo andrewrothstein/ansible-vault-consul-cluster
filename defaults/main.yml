@@ -1,0 +1,11 @@
+---
+# defaults file for vault-consul-cluster
+vault_etc_dir : /etc/vault
+vault_etc_pki_dir: /etc/vault/pki
+
+vault_user: vault
+vault_group: vault
+
+vault_pki_dir: '~/pki-dir'
+vault_pki_key_suffix: '-key.pem'
+vault_pki_cert_suffix: '.pem'
