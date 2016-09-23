@@ -47,7 +47,7 @@
     - config.hcl
   template: >-
     src=etc/vault/{{item}}.j2
-    dest={{vault_etc_dir}}/{{item}}.hcl
+    dest={{vault_etc_dir}}/{{item}}
     mode=0644
 
 - include: '{{vault_init}}.yml'
