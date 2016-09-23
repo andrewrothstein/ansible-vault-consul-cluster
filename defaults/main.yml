@@ -9,3 +9,5 @@ vault_group: vault
 vault_pki_dir: '~/pki-dir'
 vault_pki_key_suffix: '-key.pem'
 vault_pki_cert_suffix: '.pem'
+
+vault_init: systemd

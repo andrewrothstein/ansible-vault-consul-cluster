@@ -27,7 +27,6 @@
     mode={{item.m}}
 
 - name: install keys/certs
-  when: vault_secure
   become: yes
   become_user: root
   with_items:
@@ -47,7 +46,7 @@
   with_items:
     - config.hcl
   template: >-
-    src=etc/vault/{{item}}
+    src=etc/vault/{{item}}.j2
     dest={{vault_etc_dir}}/{{item}}.hcl
     mode=0644
 
