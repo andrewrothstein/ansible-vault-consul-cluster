@@ -1,11 +1,21 @@
 backend "consul" {
-    address = "127.0.0.1:8500"
+    address = "127.0.0.1:8501"
     path = "vault/"
+    scheme = "https"
+    tls_ca_file = {{vault_pki_ca_cert_dest|to_json}}
+    tls_cert_file = {{vault_pki_cert_dest|to_json}}
+    tls_key_file = {{vault_pki_key_dest|to_json}}
+    redirect_addr = "https://{{vault_public_ip}}:{{vault_port}}"
 }
 
 listener "tcp" {
-    address = "127.0.0.1:8200"
+    address = "127.0.0.1:{{vault_port}}"
     tls_cert_file = {{vault_pki_cert_dest|to_json}}
     tls_key_file = {{vault_pki_key_dest|to_json}}
-    
+}
+
+listener "tcp" {
+    address = "{{vault_public_ip}}:{{vault_port}}"
+    tls_cert_file = {{vault_pki_cert_dest|to_json}}
+    tls_key_file = {{vault_pki_key_dest|to_json}}
 }

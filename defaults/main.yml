@@ -11,3 +11,6 @@ vault_pki_key_suffix: '-key.pem'
 vault_pki_cert_suffix: '.pem'
 
 vault_init: systemd
+
+vault_network_iface: eth0
+vault_port: 8200
