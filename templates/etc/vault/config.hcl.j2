@@ -1,5 +1,5 @@
 backend "consul" {
-    address = "127.0.0.1:8501"
+    address = "{{vault_consul_public_ip}}:{{vault_consul_port}}"
     path = "vault/"
     scheme = "https"
     tls_ca_file = {{vault_pki_ca_cert_dest|to_json}}
