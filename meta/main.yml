@@ -9,19 +9,20 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 7
+        - all
     - name: Fedora
       versions:
-        - 23
+        - all
     - name: Ubuntu
       versions:
-        - trusty
         - xenial
   galaxy_tags:
-    - development
+    - consul
+    - vault
+    - ha
 
 dependencies:
   - role: andrewrothstein.vault
-    version: v1.0.0
+    version: v1.0.2
 
   
