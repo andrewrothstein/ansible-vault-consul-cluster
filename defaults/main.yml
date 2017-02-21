@@ -6,11 +6,12 @@ vault_etc_pki_dir: /etc/vault/pki
 vault_user: vault
 vault_group: vault
 
-vault_pki_dir: '~/pki-dir'
-vault_pki_key_suffix: '-key.pem'
-vault_pki_cert_suffix: '.pem'
+vault_pki_dir: ~/pki-dir
+vault_pki_key_suffix: -key.pem
+vault_pki_cert_suffix: .pem
 
 vault_init: systemd
+vault_activate: True
 
 vault_network_iface: eth0
 vault_consul_network_iface: eth0

@@ -4,19 +4,23 @@
   become_user: root
   register: vault_service_modified
   with_items:
-    usr/lib/systemd/system/vault.service
-  template: >-
-    src={{item}}.j2
-    dest=/{{item}}
-    mode=0644
+    - usr/lib/systemd/system/vault.service
+  template:
+    src: '{{item}}.j2'
+    dest: /{{item}}
+    mode: 0644
 
 - name: systemctl daemon-reload
   become: yes
   become_user: root
-  when: vault_service_modified|changed
+  when: vault_activate and vault_service_modified|changed
   command: systemctl daemon-reload
     
 - name: launch vault service
   become: yes
   become_user: root
-  service: name=vault enabled=true state=started
+  when: vault_activate
+  service:
+    name: vault
+    enabled: true
+    state: started

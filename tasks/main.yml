@@ -2,53 +2,65 @@
 - name: create vault group
   become: yes
   become_user: root
-  group: name={{vault_group}} state=present
+  group:
+    name: '{{vault_group}}'
+    state: present
   
 - name: create vault user
   become: yes
   become_user: root
-  user: >-
-    name={{vault_user}}
-    group={{vault_group}}
-    home={{vault_etc_dir}}
-    state=present
+  user:
+    name: '{{vault_user}}'
+    group: '{{vault_group}}'
+    home: '{{vault_etc_dir}}'
+    state: present
     
 - name: create directories
   become: yes
   become_user: root
   with_items:
-    - { d: '{{vault_etc_dir}}', m: '0755' }
-    - { d: '{{vault_etc_pki_dir}}', m: '0700' }
-  file: >-
-    path={{item.d}}
-    state=directory
-    owner={{vault_user}}
-    group={{vault_group}}
-    mode={{item.m}}
+    - d: '{{vault_etc_dir}}'
+      m: 0755
+    - d: '{{vault_etc_pki_dir}}'
+      m: 0700
+  file:
+    path: '{{item.d}}'
+    state: directory
+    owner: '{{vault_user}}'
+    group: '{{vault_group}}'
+    mode: '{{item.m}}'
 
 - name: install keys/certs
   become: yes
   become_user: root
   with_items:
-    - { f: '{{vault_pki_key_src}}', d: '{{vault_pki_key_dest}}', m: '0400' }
-    - { f: '{{vault_pki_cert_src}}', d: '{{vault_pki_cert_dest}}', m: '0600'}
-    - { f: '{{vault_pki_ca_cert_src}}', d: '{{vault_pki_ca_cert_dest}}', m: '0600' }
-  copy: >-
-    src={{item.f}}
-    dest={{item.d}}
-    owner={{vault_user}}
-    group={{vault_group}}
-    mode={{item.m}}
+    - f: '{{vault_pki_key_src}}'
+      d: '{{vault_pki_key_dest}}'
+      m: 0400
+    - f: '{{vault_pki_cert_src}}'
+      d: '{{vault_pki_cert_dest}}'
+      m: 0600
+    - f: '{{vault_pki_ca_cert_src}}'
+      d: '{{vault_pki_ca_cert_dest}}'
+      m: 0600
+  copy:
+    src: '{{item.f}}'
+    dest: '{{item.d}}'
+    owner: '{{vault_user}}'
+    group: '{{vault_group}}'
+    mode: '{{item.m}}'
 
 - name: configure templates...
   become: yes
-  become_user: '{{vault_user}}'
+  become_user: root
   with_items:
     - config.hcl
-  template: >-
-    src=etc/vault/{{item}}.j2
-    dest={{vault_etc_dir}}/{{item}}
-    mode=0644
+  template:
+    src: etc/vault/{{item}}.j2
+    dest: {{vault_etc_dir}}/{{item}}
+    owner: '{{vault_user}}'
+    group: '{{vault_group}}'
+    mode: 0644
 
 - include: '{{vault_init}}.yml'
 
