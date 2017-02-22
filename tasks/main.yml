@@ -20,9 +20,9 @@
   become_user: root
   with_items:
     - d: '{{vault_etc_dir}}'
-      m: 0755
+      m: '0755'
     - d: '{{vault_etc_pki_dir}}'
-      m: 0700
+      m: '0700'
   file:
     path: '{{item.d}}'
     state: directory
@@ -36,13 +36,13 @@
   with_items:
     - f: '{{vault_pki_key_src}}'
       d: '{{vault_pki_key_dest}}'
-      m: 0400
+      m: '0400'
     - f: '{{vault_pki_cert_src}}'
       d: '{{vault_pki_cert_dest}}'
-      m: 0600
+      m: '0600'
     - f: '{{vault_pki_ca_cert_src}}'
       d: '{{vault_pki_ca_cert_dest}}'
-      m: 0600
+      m: '0600'
   copy:
     src: '{{item.f}}'
     dest: '{{item.d}}'
@@ -57,7 +57,7 @@
     - config.hcl
   template:
     src: etc/vault/{{item}}.j2
-    dest: {{vault_etc_dir}}/{{item}}
+    dest: '{{vault_etc_dir}}/{{item}}'
     owner: '{{vault_user}}'
     group: '{{vault_group}}'
     mode: 0644
