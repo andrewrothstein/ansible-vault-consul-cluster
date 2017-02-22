@@ -4,11 +4,13 @@
   become_user: root
   register: vault_service_modified
   with_items:
-    - usr/lib/systemd/system/vault.service
+    - f: vault.service
+      d: /usr/lib/systemd/system
+      m: '0644'
   template:
-    src: '{{item}}.j2'
-    dest: /{{item}}
-    mode: 0644
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
+    mode: '{{item.m}}'
 
 - name: systemctl daemon-reload
   become: yes

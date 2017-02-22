@@ -50,17 +50,22 @@
     group: '{{vault_group}}'
     mode: '{{item.m}}'
 
-- name: configure templates...
+- name: configurate...
   become: yes
   become_user: root
   with_items:
-    - config.hcl
+    - f: config.hcl
+      d: '{{vault_etc_dir}}'
+      m: '0644'
+    - f: vault.sh
+      d: /etc/profile.d
+      m: '0644'
   template:
-    src: etc/vault/{{item}}.j2
-    dest: '{{vault_etc_dir}}/{{item}}'
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
     owner: '{{vault_user}}'
     group: '{{vault_group}}'
-    mode: 0644
+    mode: '{{item.m}}'
 
 - include: '{{vault_init}}.yml'
 
