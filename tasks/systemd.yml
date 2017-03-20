@@ -5,7 +5,7 @@
   register: vault_service_modified
   with_items:
     - f: vault.service
-      d: /usr/lib/systemd/system
+      d: /etc/systemd/system
       m: '0644'
   template:
     src: '{{item.f}}.j2'

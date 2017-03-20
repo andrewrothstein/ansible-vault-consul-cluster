@@ -13,6 +13,7 @@ vault_pki_cert_suffix: .pem
 vault_init: systemd
 vault_activate: True
 
+vault_use_ips: False
 vault_network_iface: eth0
 vault_consul_network_iface: eth0
 vault_consul_port: 8501

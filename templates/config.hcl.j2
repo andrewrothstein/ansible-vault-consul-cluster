@@ -1,11 +1,11 @@
 backend "consul" {
-    address = "{{vault_consul_public_ip}}:{{vault_consul_port}}"
+    address = "{{vault_consul_public_endpoint}}:{{vault_consul_port}}"
     path = "vault/"
     scheme = "https"
     tls_ca_file = {{vault_pki_ca_cert_dest|to_json}}
     tls_cert_file = {{vault_pki_cert_dest|to_json}}
     tls_key_file = {{vault_pki_key_dest|to_json}}
-    redirect_addr = "https://{{vault_public_ip}}:{{vault_port}}"
+    redirect_addr = "https://{{vault_public_endpoint}}:{{vault_port}}"
 }
 
 listener "tcp" {
@@ -15,7 +15,7 @@ listener "tcp" {
 }
 
 listener "tcp" {
-    address = "{{vault_public_ip}}:{{vault_port}}"
+    address = "{{vault_public_endpoint}}:{{vault_port}}"
     tls_cert_file = {{vault_pki_cert_dest|to_json}}
     tls_key_file = {{vault_pki_key_dest|to_json}}
 }
