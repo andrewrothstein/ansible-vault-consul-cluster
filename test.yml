@@ -1,6 +1,6 @@
 ---
 - hosts: all
   roles:
-    - role: '{{playbook_dir}}'
+    - role: '{{ playbook_dir }}'
       vault_activate: False
-      vault_pki_dir: '{{playbook_dir}}'
+      vault_pki_dir: '{{ playbook_dir }}'

@@ -13,16 +13,40 @@ galaxy_info:
     - name: Fedora
       versions:
         - all
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+        - buster
     - name: Ubuntu
       versions:
         - xenial
+        - bionic
   galaxy_tags:
     - consul
     - vault
     - ha
-
 dependencies:
-  - role: andrewrothstein.vault
-    version: v1.1.0
-
-  
+  - role: andrewrothstein.vault-config
+    version: v1.0.5
+    vault_config_storage:
+      ty: consul
+      address: '{{ vault_consul_public_endpoint }}:{{ vault_consul_port }}'
+      scheme: https
+      pki:
+        ca_file: '{{ vault_pki_ca_cert_dest }}'
+        cert_file: '{{ vault_pki_cert_dest }}'
+        key_file: '{{ vault_pki_key_dest }}'
+      ha:
+        redirect_addr: https://{{ vault_public_endpoint }}:{{ vault_port }}
+    vault_config_listeners:
+      - ty: tcp
+        address: '127.0.0.1:{{ vault_port }}'
+        pki:
+          cert_file: '{{ vault_pki_cert_dest }}'
+          key_file: '{{ vault_pki_key_dest }}'
+      - ty: tcp
+        address: '{{ vault_public_endpoint }}:{{ vault_port }}'
+        pki:
+          cert_file: '{{ vault_pki_cert_dest }}'
+          key_file: '{{ vault_pki_key_dest }}'

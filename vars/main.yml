@@ -1,17 +1,16 @@
 ---
 # vars file for vault-consul-cluster
-vault_pki_key_file : '{{inventory_hostname}}{{vault_pki_key_suffix}}'
-vault_pki_key_src: '{{vault_pki_dir}}/{{vault_pki_key_file}}'
-vault_pki_key_dest : '{{vault_etc_pki_dir}}/{{vault_pki_key_file}}'
+vault_pki_key_file : '{{ inventory_hostname }}{{ vault_pki_key_suffix }}'
+vault_pki_key_src: '{{ vault_pki_dir }}/{{ vault_pki_key_file }}'
+vault_pki_key_dest : '{{ vault_etc_pki_dir }}/{{ vault_pki_key_file }}'
 
-vault_pki_cert_file : '{{inventory_hostname}}{{vault_pki_cert_suffix}}'
-vault_pki_cert_src: '{{vault_pki_dir}}/{{vault_pki_cert_file}}'
-vault_pki_cert_dest : '{{vault_etc_pki_dir}}/{{vault_pki_cert_file}}'
+vault_pki_cert_file : '{{ inventory_hostname }}{{ vault_pki_cert_suffix }}'
+vault_pki_cert_src: '{{ vault_pki_dir }}/{{ vault_pki_cert_file }}'
+vault_pki_cert_dest : '{{ vault_etc_pki_dir }}/{{ vault_pki_cert_file }}'
 
-vault_pki_ca_file : 'ca{{vault_pki_cert_suffix}}'
-vault_pki_ca_cert_src: '{{vault_pki_dir}}/{{vault_pki_ca_file}}'
-vault_pki_ca_cert_dest : '{{vault_etc_pki_dir}}/{{vault_pki_ca_file}}'
+vault_pki_ca_file : 'ca{{ vault_pki_cert_suffix }}'
+vault_pki_ca_cert_src: '{{ vault_pki_dir }}/{{ vault_pki_ca_file }}'
+vault_pki_ca_cert_dest : '{{ vault_etc_pki_dir }}/{{ vault_pki_ca_file }}'
 
-vault_public_endpoint: '{% if vault_use_ips %}{{hostvars[inventory_hostname]["ansible_" + hostvars[inventory_hostname]["vault_network_iface"]]["ipv4"]["address"]}}{% else %}{{inventory_hostname}}{% endif %}'
-vault_consul_public_endpoint: '{% if vault_use_ips %}{{hostvars[inventory_hostname]["ansible_" + hostvars[inventory_hostname]["vault_consul_network_iface"]]["ipv4"]["address"]}}{% else %}{{inventory_hostname}}{% endif %}'
-
+vault_public_endpoint: '{% if vault_use_ips %}{{ hostvars[inventory_hostname]["ansible_" + hostvars[inventory_hostname]["vault_network_iface"]]["ipv4"]["address"] }}{% else %}{{ inventory_hostname }}{% endif %}'
+vault_consul_public_endpoint: '{% if vault_use_ips %}{{ hostvars[inventory_hostname]["ansible_" + hostvars[inventory_hostname]["vault_consul_network_iface"]]["ipv4"]["address"] }}{% else %}{{ inventory_hostname }}{% endif %}'

@@ -3,69 +3,65 @@
   become: yes
   become_user: root
   group:
-    name: '{{vault_group}}'
+    name: '{{ vault_group }}'
     state: present
   
 - name: create vault user
   become: yes
   become_user: root
   user:
-    name: '{{vault_user}}'
-    group: '{{vault_group}}'
-    home: '{{vault_etc_dir}}'
+    name: '{{ vault_user }}'
+    group: '{{ vault_group }}'
+    home: '{{ vault_etc_dir }}'
     state: present
     
 - name: create directories
   become: yes
   become_user: root
   with_items:
-    - d: '{{vault_etc_dir}}'
+    - d: '{{ vault_etc_dir }}'
       m: '0755'
-    - d: '{{vault_etc_pki_dir}}'
+    - d: '{{ vault_etc_pki_dir }}'
       m: '0700'
   file:
-    path: '{{item.d}}'
+    path: '{{ item.d }}'
     state: directory
-    owner: '{{vault_user}}'
-    group: '{{vault_group}}'
-    mode: '{{item.m}}'
+    owner: '{{ vault_user }}'
+    group: '{{ vault_group }}'
+    mode: '{{ item.m }}'
 
 - name: install keys/certs
   become: yes
   become_user: root
   with_items:
-    - f: '{{vault_pki_key_src}}'
-      d: '{{vault_pki_key_dest}}'
+    - f: '{{ vault_pki_key_src }}'
+      d: '{{ vault_pki_key_dest }}'
       m: '0400'
-    - f: '{{vault_pki_cert_src}}'
-      d: '{{vault_pki_cert_dest}}'
+    - f: '{{ vault_pki_cert_src }}'
+      d: '{{ vault_pki_cert_dest }}'
       m: '0600'
-    - f: '{{vault_pki_ca_cert_src}}'
-      d: '{{vault_pki_ca_cert_dest}}'
+    - f: '{{ vault_pki_ca_cert_src }}'
+      d: '{{ vault_pki_ca_cert_dest }}'
       m: '0600'
   copy:
-    src: '{{item.f}}'
-    dest: '{{item.d}}'
-    owner: '{{vault_user}}'
-    group: '{{vault_group}}'
-    mode: '{{item.m}}'
+    src: '{{ item.f }}'
+    dest: '{{ item.d }}'
+    owner: '{{ item.o | default(vault_user) }}'
+    group: '{{ item.g | default(vault_group) }}'
+    mode: '{{ item.m }}'
 
 - name: configurate...
   become: yes
   become_user: root
   with_items:
-    - f: config.hcl
-      d: '{{vault_etc_dir}}'
-      m: '0644'
     - f: vault.sh
       d: /etc/profile.d
       m: '0644'
   template:
-    src: '{{item.f}}.j2'
-    dest: '{{item.d}}/{{item.f}}'
-    owner: '{{vault_user}}'
-    group: '{{vault_group}}'
-    mode: '{{item.m}}'
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    owner: '{{ item.o | default(vault_user) }}'
+    group: '{{ item.g | default(vault_group) }}'
+    mode: '{{ item.m }}'
 
-- include: '{{vault_init}}.yml'
-
+- include: '{{ vault_init }}.yml'

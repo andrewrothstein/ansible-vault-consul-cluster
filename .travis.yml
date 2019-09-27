@@ -1,29 +1,33 @@
----
+before_install: "if [[ \"$TRAVIS_OS_NAME\" == \"osx\" ]]\nthen\n  brew upgrade openssl\
+  \ || brew install openssl || true\n  brew upgrade python@3 || brew install python@3\
+  \ || true\n  brew upgrade md5sha1sum || brew install md5sha1sum || true\n  virtualenv\
+  \ venv -p python\n  source venv/bin/activate\n  pip install ansible\nfi"
+branches:
+  except:
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+dist: xenial
+env:
+- OS=archlinux_latest
+- OS=centos_7
+- OS=debian_buster
+- OS=debian_jessie
+- OS=debian_stretch
+- OS=fedora_23
+- OS=fedora_24
+- OS=fedora_25
+- OS=fedora_26
+- OS=fedora_27
+- OS=fedora_28
+- OS=fedora_29
+- OS=fedora_30
+- OS=ubuntu_bionic
+- OS=ubuntu_xenial
 language: python
-python: "2.7"
-
-# Use the new container infrastructure
-sudo: false
-
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
-
-install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
-
+python: '3.7'
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+- ansible-galaxy-local-deps-write
+- dcb --upstreamgroup andrewrothstein --upstreamapp docker-ansible-role --pullall
+  --writeall --buildall --pushall --alltags ${OS}
+services:
+- docker
+sudo: required
